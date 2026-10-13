@@ -35,7 +35,7 @@ data class Toolkit(
 object Repo {
     const val SITE_HOST = "ateliersourcedeck.com"
     const val JSON_URL = "https://ateliersourcedeck.com/toolkit.json"
-    const val GUIDES_URL = "https://ateliersourcedeck.com/toolkit.html#guides"
+    const val GUIDES_URL = "https://ateliersourcedeck.com/toolkit.html?view=guides"
     private const val CACHE_NAME = "toolkit-cache.json"
 
     fun parse(text: String, source: String): Toolkit {
