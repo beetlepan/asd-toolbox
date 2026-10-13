@@ -1,0 +1,598 @@
+{
+  "schema": 1,
+  "updated": "2026-10-13",
+  "memo": "歡迎使用 ASD工具箱。軟體版本與教學會持續更新，遇到問題請先查「教學」，找不到再用「回報」一鍵整理資訊給我們。",
+  "categories": [
+    {
+      "id": "root",
+      "label": "ROOT"
+    },
+    {
+      "id": "game",
+      "label": "遊戲"
+    }
+  ],
+  "updates": [
+    {
+      "id": "kernelsu",
+      "cat": "root",
+      "name": "KernelSU",
+      "author": "tiann",
+      "version": "v3.3.0",
+      "date": "2026-08-28",
+      "stars": "19.1k",
+      "desc": "核心層級（Kernel-based）的 Root 解決方案，提供裝置 Root 權限的核心框架，是常用的 ROOT 底層元件之一。",
+      "links": [
+        {
+          "label": "下載",
+          "url": "https://github.com/tiann/KernelSU/releases",
+          "primary": true,
+          "linkType": "page"
+        },
+        {
+          "label": "教程",
+          "url": "https://kernelsu.org/guide/installation.html",
+          "linkType": "page"
+        }
+      ],
+      "pkg": "me.weishu.kernelsu"
+    },
+    {
+      "id": "sukisu-ultra",
+      "cat": "root",
+      "name": "SukiSU Ultra",
+      "author": "ShirkNeko",
+      "version": "v4.1.3",
+      "date": "2026-09-01",
+      "stars": "6.5k",
+      "desc": "同樣是核心層級 Root 方案，KernelSU 的衍生分支，另外支援 KPM（核心模組）功能。",
+      "links": [
+        {
+          "label": "下載",
+          "url": "https://github.com/SukiSU-Ultra/SukiSU-Ultra/releases",
+          "primary": true,
+          "linkType": "page"
+        },
+        {
+          "label": "GitHub",
+          "url": "https://github.com/SukiSU-Ultra/SukiSU-Ultra",
+          "linkType": "page"
+        }
+      ]
+    },
+    {
+      "id": "magisk",
+      "cat": "root",
+      "name": "Magisk",
+      "author": "topjohnwu",
+      "version": "v30.7",
+      "date": "2026-02-23",
+      "stars": "63.2k",
+      "desc": "最經典的 Root 工具之一，透過系統層修改實現免動分割區的 Root 方式，生態系與模組最完整。",
+      "links": [
+        {
+          "label": "下載",
+          "url": "https://github.com/topjohnwu/Magisk/releases",
+          "primary": true,
+          "linkType": "page"
+        },
+        {
+          "label": "教程",
+          "url": "https://topjohnwu.github.io/Magisk/install.html",
+          "linkType": "page"
+        }
+      ],
+      "pkg": "com.topjohnwu.magisk"
+    },
+    {
+      "id": "lsposed",
+      "cat": "root",
+      "name": "LSPosed",
+      "author": "LSPosed.cn",
+      "version": "v2.2.0-7854",
+      "date": "",
+      "stars": "",
+      "desc": "Xposed 模組執行框架，用來執行各類系統模組（本工作室服務所使用的版本）。",
+      "links": [
+        {
+          "label": "下載",
+          "url": "https://lsposed.cn/lsposed1",
+          "primary": true,
+          "linkType": "module-zip"
+        },
+        {
+          "label": "說明",
+          "url": "https://lsposed.cn/lsposed1",
+          "linkType": "page"
+        }
+      ]
+    },
+    {
+      "id": "play-integrity-fix",
+      "cat": "root",
+      "name": "Play Integrity Fix",
+      "author": "KOWX712",
+      "version": "v4.8",
+      "date": "2026-10-12",
+      "stars": "4k",
+      "desc": "修正 Google Play 完整性驗證結果，改善 Root 後銀行、遊戲等對裝置驗證較嚴格的 App 相容性。",
+      "links": [
+        {
+          "label": "下載",
+          "url": "https://github.com/KOWX712/PlayIntegrityFix/releases/tag/v4.8-inject-s",
+          "primary": true,
+          "linkType": "module-zip"
+        },
+        {
+          "label": "GitHub",
+          "url": "https://github.com/KOWX712/PlayIntegrityFix",
+          "linkType": "page"
+        }
+      ]
+    },
+    {
+      "id": "integrity-box",
+      "cat": "root",
+      "name": "Integrity-Box",
+      "author": "MeowDump",
+      "version": "v40",
+      "date": "2026-08-05",
+      "stars": "2.7k",
+      "desc": "Play Integrity 驗證與系統環境管理工具箱，可輔助檢查、調整裝置的完整性驗證狀態，適合搭配上方相容性套件一起排查問題。",
+      "links": [
+        {
+          "label": "下載",
+          "url": "https://github.com/MeowDump/Integrity-Box/releases",
+          "primary": true,
+          "linkType": "module-zip"
+        },
+        {
+          "label": "GitHub",
+          "url": "https://github.com/MeowDump/Integrity-Box",
+          "linkType": "page"
+        }
+      ]
+    },
+    {
+      "id": "hide-mock-location",
+      "cat": "root",
+      "name": "Hide Mock Location",
+      "author": "auag0",
+      "version": "v2.3.1",
+      "date": "2026-05-12",
+      "stars": "383",
+      "desc": "隱藏「允許模擬位置」開發者選項的偵測，常搭配定位模擬工具用於遊戲定位偽裝（如虛擬定位抓寶）。",
+      "links": [
+        {
+          "label": "下載",
+          "url": "https://github.com/auag0/HideMockLocation/releases",
+          "primary": true,
+          "linkType": "page"
+        },
+        {
+          "label": "GitHub",
+          "url": "https://github.com/auag0/HideMockLocation",
+          "linkType": "page"
+        }
+      ]
+    },
+    {
+      "id": "pogo-play",
+      "cat": "game",
+      "name": "Pokémon GO（Play 商店原版）",
+      "author": "Niantic, Inc.",
+      "version": "0.431.0",
+      "date": "2026-10-02",
+      "stars": "",
+      "pkg": "com.nianticlabs.pokemongo",
+      "desc": "Google Play 商店的原版 Pokémon GO。版本號取自 APKMirror，下載請到 Play 商店。",
+      "links": [
+        {
+          "label": "前往 Play 商店",
+          "url": "https://play.google.com/store/apps/details?id=com.nianticlabs.pokemongo&hl=zh_TW",
+          "primary": true,
+          "linkType": "store"
+        }
+      ]
+    },
+    {
+      "id": "pogo-galaxy-store",
+      "cat": "game",
+      "name": "Pokémon GO（三星 Galaxy Store 版）",
+      "author": "Niantic, Inc.",
+      "version": "0.431.0",
+      "date": "2026-10-01",
+      "stars": "",
+      "desc": "三星 Galaxy Store 發行的 Pokémon GO 版本，搭配下方的 Galaxy Store 使用。",
+      "links": [
+        {
+          "label": "前往下載頁（APKMirror）",
+          "url": "https://www.apkmirror.com/apk/niantic-inc/pokemon-go-samsung-galaxy-apps-version/",
+          "primary": true,
+          "linkType": "page"
+        }
+      ],
+      "pkg": "com.nianticlabs.pokemongo.ares"
+    },
+    {
+      "id": "galaxy-store",
+      "cat": "game",
+      "name": "三星 Galaxy Store",
+      "author": "Samsung Electronics",
+      "version": "4.6.10.7",
+      "date": "2026-08-20",
+      "stars": "",
+      "pkg": "com.sec.android.app.samsungapps",
+      "desc": "需安裝 Galaxy Store，才能解決非三星裝置安裝 Pokémon GO 的相容性問題（如商城購買異常）。",
+      "links": [
+        {
+          "label": "前往下載頁（APKMirror）",
+          "url": "https://www.apkmirror.com/apk/samsung-electronics-co-ltd/galaxy-apps/samsung-galaxy-store-galaxy-apps-4-6-10-7-release/",
+          "primary": true,
+          "linkType": "page"
+        }
+      ]
+    },
+    {
+      "id": "pgtools",
+      "cat": "game",
+      "name": "PGTools",
+      "author": "pgtools.net",
+      "version": "6.0.6",
+      "date": "",
+      "stars": "",
+      "desc": "結合定位模擬與自動化功能的第三方工具（自動捕捉寶可夢等），需搭配 Root 裝置使用。",
+      "warn": "違反 Niantic 服務條款，有帳號被封鎖的風險。",
+      "links": [
+        {
+          "label": "前往官網",
+          "url": "https://pgtools.net/",
+          "primary": true,
+          "linkType": "page"
+        }
+      ],
+      "pkg": "net.pgtools.auto"
+    },
+    {
+      "id": "pokemod",
+      "cat": "game",
+      "name": "Pokemod",
+      "author": "pokemod.dev",
+      "version": "13.8.0",
+      "date": "",
+      "stars": "",
+      "desc": "修改版遊戲客戶端，提供完美投擲、自動捉寶可夢、異色雷達等強化功能，需 Root 裝置。",
+      "warn": "違反 Niantic 服務條款，有帳號被封鎖的風險。",
+      "links": [
+        {
+          "label": "前往官網",
+          "url": "https://pokemod.dev/zh",
+          "primary": true,
+          "linkType": "page"
+        }
+      ],
+      "pkg": "com.pokemod.app.public"
+    },
+    {
+      "id": "gps-joystick",
+      "cat": "game",
+      "name": "GPS Joystick",
+      "author": "App Ninjas",
+      "version": "5.3.2",
+      "date": "",
+      "stars": "",
+      "desc": "老牌定位模擬（虛擬搖桿）工具，可在螢幕上用搖桿控制模擬位置移動，常搭配 Hide Mock Location 隱藏偵測一起使用。",
+      "warn": "用於遊戲定位偽裝同樣違反服務條款。",
+      "links": [
+        {
+          "label": "穩定版下載（Drive）",
+          "url": "https://drive.google.com/file/d/1RewJxBy8njLVGfgzOFiaCJ8fCE1ezQ0R/view?usp=sharing",
+          "primary": true,
+          "linkType": "page"
+        },
+        {
+          "label": "前往官網",
+          "url": "https://theappninjas.com/",
+          "linkType": "page"
+        }
+      ]
+    },
+    {
+      "id": "polygonx",
+      "cat": "game",
+      "name": "PolygonX",
+      "author": "Evermore Labs",
+      "version": "0.36.1",
+      "date": "",
+      "stars": "",
+      "pkg": "com.evermorelabs.polygonx",
+      "isNew": true,
+      "desc": "寶可夢相關的第三方工具，需 Android 9 以上。",
+      "warn": "第三方工具，使用前請自行評估風險，可能違反遊戲服務條款。",
+      "links": [
+        {
+          "label": "下載 APK",
+          "url": "https://polygonx.dl.assets.evermorelabs.io/apk/com.evermorelabs.polygonx-0.36.1.apk",
+          "primary": true,
+          "linkType": "apk-direct"
+        }
+      ]
+    },
+    {
+      "id": "wecatch",
+      "cat": "game",
+      "name": "WeCATCH",
+      "author": "daydreamer1222",
+      "version": "4.4.5",
+      "date": "",
+      "stars": "",
+      "pkg": "com.daydreamer.wecatch",
+      "isNew": true,
+      "desc": "軟體提供 IV、團戰等資料。",
+      "warn": "第三方工具，使用前請自行評估風險，可能違反遊戲服務條款。",
+      "links": [
+        {
+          "label": "前往下載頁",
+          "url": "https://github.com/daydreamer1222/wecatch-android/releases",
+          "primary": true,
+          "linkType": "page"
+        }
+      ]
+    },
+    {
+      "id": "pokelist",
+      "cat": "game",
+      "name": "PokeList",
+      "author": "moonani.com",
+      "version": "1.3.18",
+      "date": "",
+      "stars": "",
+      "pkg": "com.antvn.pokelist",
+      "isNew": true,
+      "desc": "寶可夢數據查詢工具，網站提供 IV、PvP、團戰等資料。",
+      "links": [
+        {
+          "label": "下載 APK",
+          "url": "https://moonani.com/PokeList/PokeList.apk",
+          "primary": true,
+          "linkType": "apk-direct"
+        },
+        {
+          "label": "官網",
+          "url": "https://moonani.com/PokeList/index.php",
+          "linkType": "page"
+        }
+      ]
+    },
+    {
+      "id": "gpx-folder",
+      "cat": "game",
+      "name": "GPX 路徑檔案夾",
+      "author": "楊君傑（分享）",
+      "version": "",
+      "date": "",
+      "stars": "",
+      "isNew": true,
+      "desc": "整理好的 GPX 路徑檔案，可匯入定位模擬工具使用。感謝楊君傑提供分享。",
+      "links": [
+        {
+          "label": "開啟檔案夾",
+          "url": "https://drive.google.com/drive/folders/1-MVzKIlqKHbYcPmVVCw0P9WveGd4MlwB?usp=sharing",
+          "primary": true,
+          "linkType": "page"
+        }
+      ]
+    },
+    {
+      "id": "zygisk-next",
+      "cat": "root",
+      "name": "Zygisk Next",
+      "author": "LSPosed",
+      "version": "1.5.0",
+      "date": "",
+      "stars": "",
+      "isNew": true,
+      "desc": "Magisk / KernelSU 的 Zygisk 實作模組，部分模組與隱藏方案會用到。這是 Root 模組，下載後要在 Root 管理器內「從儲存空間安裝」。",
+      "links": [
+        {
+          "label": "下載模組",
+          "url": "https://github.com/LSPosed/ZygiskNext/releases",
+          "primary": true,
+          "linkType": "module-zip"
+        }
+      ]
+    }
+  ],
+  "guides": [
+    {
+      "id": "bank-app-unsafe",
+      "tag": "ROOT",
+      "title": "銀行、薪資轉帳 App 顯示「裝置不安全」",
+      "summary": "多數金融類 App 會偵測裝置是否 Root。交機時已安裝隱藏套件因應，交付後若又出現，通常是 App 更新了偵測機制。",
+      "steps": [
+        {
+          "t": "完整重開機",
+          "d": "先把手機重新啟動一次，不要只是關閉 App 再開。"
+        },
+        {
+          "t": "再開一次 App",
+          "d": "重開機後再次開啟該金融 App，確認是否恢復正常。"
+        },
+        {
+          "t": "仍無效就回報",
+          "d": "到「回報」頁籤，附上 App 名稱與畫面截圖，預約回報處理。"
+        }
+      ]
+    },
+    {
+      "id": "root-gone-after-ota",
+      "tag": "ROOT",
+      "title": "系統自動更新後，Root 不見了",
+      "summary": "系統 OTA 更新通常會清除 Root，這是正常現象，不是壞掉。",
+      "steps": [
+        {
+          "t": "先關閉自動更新",
+          "d": "到手機「設定」內關閉系統自動更新，避免再次被覆蓋。"
+        },
+        {
+          "t": "需要重新刷入",
+          "d": "透過「回報」頁籤的聯絡方式預約，我們會協助重新刷入。"
+        }
+      ]
+    },
+    {
+      "id": "joystick-default-link",
+      "tag": "遊戲",
+      "device": "小米",
+      "title": "點 GPS 位置只開 Google Map，改成自動開 Joystick",
+      "summary": "關聯應用程式啟動異常時的處理方式，以小米手機為例。",
+      "steps": [
+        {
+          "t": "移除內建 Google 應用",
+          "d": "先移除手機內建的 Google Maps 與 Google 應用程式。"
+        },
+        {
+          "t": "進入預設應用程式",
+          "d": "開啟「設定」→「應用程式設定」→「預設應用程式」→「開啟連結」。"
+        },
+        {
+          "t": "找到 Joystick",
+          "d": "在清單中找到 Joystick。"
+        },
+        {
+          "t": "勾選全部連結",
+          "d": "把下方「新增連結」的項目全部勾選即可。"
+        }
+      ]
+    },
+    {
+      "id": "samsung-purchase-error",
+      "tag": "遊戲",
+      "device": "三星",
+      "title": "Pokémon GO 顯示「無法完成購買」",
+      "summary": "三星機型常見訊息，有兩種處理方式。",
+      "steps": [
+        {
+          "t": "方式一：直接取消",
+          "d": "按「取消」，訊息就會消失，不影響遊戲使用。"
+        },
+        {
+          "t": "方式二：安裝 Galaxy Store",
+          "d": "安裝三星官方商城 Galaxy Store APK，安裝好後先開啟商城，再開啟 Pokémon GO 即可。"
+        }
+      ],
+      "links": [
+        {
+          "label": "Galaxy Store 下載",
+          "url": "https://www.apkmirror.com/apk/samsung-electronics-co-ltd/galaxy-apps/",
+          "primary": true
+        }
+      ]
+    },
+    {
+      "id": "dual-space-error-12",
+      "tag": "遊戲",
+      "device": "小米",
+      "title": "雙開 Pokémon GO 無法存取位置（錯誤代碼 12）",
+      "summary": "使用小米內建雙開（分身）時的處理方式。",
+      "steps": [
+        {
+          "t": "一併克隆 Hide Mock Location",
+          "d": "在雙開（分身）頁面，把「Hide Mock Location」也一起克隆複製。"
+        },
+        {
+          "t": "進入 LSPosed",
+          "d": "開啟 LSPosed，找到該模組。"
+        },
+        {
+          "t": "點選 XSpace",
+          "d": "在模組內點選 XSpace。"
+        },
+        {
+          "t": "勾選克隆的遊戲",
+          "d": "勾選克隆出來的 Pokémon GO 即可。"
+        }
+      ]
+    },
+    {
+      "id": "bricked",
+      "tag": "救援",
+      "title": "手機開不了機（磚機）",
+      "summary": "請先停手，不要重複自行操作。",
+      "steps": [
+        {
+          "t": "不要重複操作",
+          "d": "重複嘗試可能讓狀況更難修復。"
+        },
+        {
+          "t": "拍照或錄影",
+          "d": "記錄手機目前畫面。"
+        },
+        {
+          "t": "立即聯絡",
+          "d": "到「回報」頁籤聯絡。是否能修復，需實際評估後才能告知。"
+        }
+      ]
+    },
+    {
+      "id": "restore-stock",
+      "tag": "ROOT",
+      "title": "想移除 Root、恢復原廠狀態",
+      "summary": "可以，實際可行性視機型而定。",
+      "steps": [
+        {
+          "t": "預約還原服務",
+          "d": "透過「回報」頁籤的聯絡方式預約，並附上機型資訊。"
+        }
+      ]
+    },
+    {
+      "id": "bootloader-intro",
+      "tag": "觀念",
+      "title": "什麼是 Bootloader 解鎖？",
+      "summary": "解鎖與 Root 的底層概念，官方文件是最可靠的來源。",
+      "steps": [
+        {
+          "t": "閱讀官方說明",
+          "d": "Android 官方文件說明了 Bootloader 鎖定與解鎖的運作方式。"
+        }
+      ],
+      "links": [
+        {
+          "label": "Android 官方文件",
+          "url": "https://source.android.com/docs/core/architecture/bootloader/locking_unlocking?hl=zh-tw",
+          "primary": true
+        }
+      ]
+    }
+  ],
+  "checklist": [
+    {
+      "id": "ota-off",
+      "text": "已在設定內關閉系統自動更新（OTA 會清除 Root）"
+    },
+    {
+      "id": "order-no",
+      "text": "已記下訂單編號，方便隨時查進度"
+    },
+    {
+      "id": "bank-test",
+      "text": "銀行、薪資轉帳等 App 已實際開啟測試過"
+    },
+    {
+      "id": "know-report",
+      "text": "知道遇到問題要先看教學，再用「回報」整理資訊"
+    }
+  ],
+  "contact": {
+    "form": "https://docs.google.com/forms/d/e/1FAIpQLSc2nbrkhKmmwC4IkVEDNHpsbhaVqe48ZwHj2wXWpY1X9cL8tQ/viewform?usp=dialog",
+    "instagram": "https://www.instagram.com/asdasdinx55/",
+    "email": "ateliersourcedeck@gmail.com"
+  },
+  "linkTypes": {
+    "apk-direct": "下載 APK",
+    "page": "前往下載頁",
+    "store": "前往商店",
+    "module-zip": "下載模組"
+  }
+}

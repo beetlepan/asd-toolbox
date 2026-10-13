@@ -1,0 +1,37 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+}
+
+android {
+    namespace 'com.ateliersourcedeck.toolbox'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId 'com.ateliersourcedeck.toolbox'
+        minSdk 24
+        targetSdk 34
+        versionCode 1
+        versionName '0.1.0-verify'
+    }
+
+    buildTypes {
+        release {
+            // 驗證版：開啟 R8 混淆與資源縮減，用 debug 金鑰簽署以便直接安裝測試。
+            // 正式版再換成自己的 keystore（發佈後不可更換）。
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    kotlinOptions {
+        jvmTarget = '17'
+    }
+}
+// 沒有第三方依賴：只用 Android 框架本身，攻擊面與 APK 體積都最小。

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- Android 11+ 套件可見性：只列出要偵測版本的 App，不申請 QUERY_ALL_PACKAGES。
+         新增偵測對象時，要在這裡加上它的套件名稱。 -->
+    <queries>
+        <!-- Root 管理器 -->
+        <package android:name="me.weishu.kernelsu" />
+        <package android:name="com.topjohnwu.magisk" />
+        <package android:name="io.github.vvb2060.magisk" />
+        <package android:name="com.sukisu.ultra" />
+        <package android:name="com.rifsxd.ksunext" />
+        <!-- 寶可夢與相關工具 -->
+        <package android:name="com.nianticlabs.pokemongo" />
+        <package android:name="com.nianticlabs.pokemongo.ares" />
+        <package android:name="com.sec.android.app.samsungapps" />
+        <package android:name="net.pgtools.auto" />
+        <package android:name="com.pokemod.app.public" />
+        <package android:name="com.evermorelabs.polygonx" />
+        <package android:name="com.daydreamer.wecatch" />
+        <package android:name="com.antvn.pokelist" />
+    </queries>
+
+    <application
+        android:allowBackup="false"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="false">
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>
