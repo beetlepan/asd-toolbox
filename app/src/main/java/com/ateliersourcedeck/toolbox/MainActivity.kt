@@ -21,28 +21,30 @@ import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.FrameLayout
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ScrollView
 import android.widget.TextView
 import android.widget.Toast
+import kotlin.math.roundToInt
 
 class MainActivity : Activity() {
 
-    private val tabNames = listOf("首頁", "教學", "寶可夢", "Root", "設定")
-    private val pages = arrayOfNulls<View>(5)
-    private val tabViews = ArrayList<TextView>()
+    private val tabNames = listOf("首頁", "相關\n教學", "寶可夢\n軟體", "Root\n軟體", "手機\n設定")
     private var current = 0
     private var toolkit: Toolkit? = null
     private val shortcutLog = LinkedHashMap<String, String>()
 
-    private lateinit var content: FrameLayout
+    private lateinit var pager: Pager
+    private lateinit var glass: GlassNav
     private lateinit var guidesPage: FrameLayout
     private lateinit var web: WebView
     private lateinit var webError: LinearLayout
     private var webLoaded = false
 
     private val navHeightDp = 64
-    private val navMarginDp = 10
+    private val navMarginDp = 12
+    private val navSpace get() = dp(navHeightDp + navMarginDp * 2)
 
     private enum class St { LATEST, OUTDATED, NOT_INSTALLED, INSTALLED_ONLY, UNDETECTABLE }
 
@@ -53,14 +55,33 @@ class MainActivity : Activity() {
 
         val root = FrameLayout(this)
         root.setBackgroundColor(C.BG)
-        content = FrameLayout(this)
-        root.addView(content, FrameLayout.LayoutParams(-1, -1))
-        buildGuidesPage()
-        root.addView(buildNav())
-        setContentView(root)
 
-        showLoading()
-        select(0)
+        pager = Pager(this)
+        root.addView(pager, FrameLayout.LayoutParams(-1, -1))
+        buildGuidesPage()
+
+        glass = GlassNav(this, tabNames)
+        glass.source = pager
+        val lp = FrameLayout.LayoutParams(-1, dp(navHeightDp))
+        lp.gravity = Gravity.BOTTOM
+        lp.setMargins(dp(navMarginDp), 0, dp(navMarginDp), dp(navMarginDp))
+        root.addView(glass, lp)
+        glass.onTap = { pager.animateTo(it) }
+        glass.onDrag = {
+            pager.cancelAnim()
+            pager.setPosition(it)
+        }
+        glass.onDragEnd = { pager.animateTo(it.roundToInt()) }
+
+        pager.onPosition = { p ->
+            glass.updatePosition(p)
+            glass.refreshBlur()
+            if (p > 0.15f) loadWebOnce()
+        }
+        pager.onSettled = { current = it }
+
+        setContentView(root)
+        pager.setPages(placeholderPages())
         reload()
     }
 
@@ -71,69 +92,24 @@ class MainActivity : Activity() {
             val tk = Repo.load(applicationContext)
             runOnUiThread {
                 toolkit = tk
-                buildPages()
-                select(current)
+                pager.setPages(
+                    listOf(buildHome(tk), guidesPage, buildTools(tk, "game"), buildTools(tk, "root"), buildSettings())
+                )
+                glass.refreshBlur()
             }
         }.start()
     }
 
-    private fun showLoading() {
-        val t = label("載入中…", 14f, C.MUTED)
-        t.gravity = Gravity.CENTER
-        pages[0] = t
-        content.removeAllViews()
-        content.addView(t, FrameLayout.LayoutParams(-1, -1))
+    private fun placeholderPages(): List<View> {
+        val loading = label("載入中…", 14f, C.MUTED)
+        loading.gravity = Gravity.CENTER
+        return listOf(loading, guidesPage, View(this), View(this), View(this))
     }
 
-    private fun buildPages() {
-        val tk = toolkit ?: return
-        pages[0] = buildHome(tk)
-        pages[1] = guidesPage
-        pages[2] = buildTools(tk, "game")
-        pages[3] = buildTools(tk, "root")
-        pages[4] = buildSettings()
-        content.removeAllViews()
-        pages.forEach { p ->
-            if (p != null) {
-                if (p.parent != null) (p.parent as ViewGroup).removeView(p)
-                content.addView(p, FrameLayout.LayoutParams(-1, -1))
-            }
-        }
-    }
+    private fun goTo(i: Int) = pager.animateTo(i)
 
-    // ---------- 導覽 ----------
-
-    private fun buildNav(): View {
-        val nav = LinearLayout(this)
-        nav.orientation = LinearLayout.HORIZONTAL
-        nav.gravity = Gravity.CENTER_VERTICAL
-        nav.setPadding(dp(6), dp(6), dp(6), dp(6))
-        nav.background = shape(C.GLASS, C.GLASS_EDGE, 24)
-        nav.elevation = dp(8).toFloat()
-        tabNames.forEachIndexed { i, name ->
-            val t = label(name, 13f, C.MUTED)
-            t.gravity = Gravity.CENTER
-            t.isClickable = true
-            t.setOnClickListener { select(i) }
-            tabViews.add(t)
-            nav.addView(t, LinearLayout.LayoutParams(0, -1, 1f))
-        }
-        val lp = FrameLayout.LayoutParams(-1, dp(navHeightDp))
-        lp.gravity = Gravity.BOTTOM
-        lp.setMargins(dp(navMarginDp), 0, dp(navMarginDp), dp(navMarginDp))
-        nav.layoutParams = lp
-        return nav
-    }
-
-    private fun select(i: Int) {
-        current = i
-        pages.forEachIndexed { idx, p -> p?.visibility = if (idx == i) View.VISIBLE else View.GONE }
-        tabViews.forEachIndexed { idx, t ->
-            val on = idx == i
-            t.setTextColor(if (on) C.GREEN else C.MUTED)
-            t.background = if (on) shape(C.GREEN_DIM, 0, 18) else null
-        }
-        if (i == 1 && !webLoaded) {
+    private fun loadWebOnce() {
+        if (!webLoaded) {
             webLoaded = true
             web.loadUrl(Repo.GUIDES_URL)
         }
@@ -141,17 +117,16 @@ class MainActivity : Activity() {
 
     @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
-        if (current == 1 && web.canGoBack()) {
+        val page = pager.position.roundToInt()
+        if (page == 1 && web.canGoBack()) {
             web.goBack()
-        } else if (current != 0) {
-            select(0)
+        } else if (page != 0) {
+            goTo(0)
         } else {
             @Suppress("DEPRECATION")
             super.onBackPressed()
         }
     }
-
-    private val navSpace get() = dp(navHeightDp + navMarginDp * 2)
 
     private fun page(build: LinearLayout.() -> Unit): ScrollView {
         val col = LinearLayout(this)
@@ -160,6 +135,7 @@ class MainActivity : Activity() {
         col.build()
         val sv = ScrollView(this)
         sv.isVerticalScrollBarEnabled = false
+        sv.setOnScrollChangeListener { _, _, _, _, _ -> glass.refreshBlur() }
         sv.addView(col, ViewGroup.LayoutParams(-1, -2))
         return sv
     }
@@ -181,9 +157,10 @@ class MainActivity : Activity() {
             St.INSTALLED_ONLY -> "已安裝" to C.GREEN
             St.UNDETECTABLE -> "僅顯示最新版" to C.DIM
         }
-        val c = label(text, 11f, color, bold = true)
+        val filled = s == St.OUTDATED
+        val c = label(text, 11f, if (filled) C.GREEN_INK else color, bold = true)
         c.setPadding(dp(8), dp(3), dp(8), dp(3))
-        c.background = shape(Color.TRANSPARENT, color, 99)
+        c.background = if (filled) shape(color, color, 99) else shape(Color.TRANSPARENT, color, 99)
         return c
     }
 
@@ -192,24 +169,39 @@ class MainActivity : Activity() {
     private fun buildHome(tk: Toolkit): View = page {
         val ctx = this@MainActivity
 
-        // 裝置資訊（終端機風格）
+        // 1. 工作室 logo
+        val logo = ImageView(ctx)
+        logo.setImageResource(R.drawable.studio_logo)
+        logo.adjustViewBounds = true
+        logo.scaleType = ImageView.ScaleType.FIT_CENTER
+        val llp = LinearLayout.LayoutParams(-1, dp(150))
+        llp.bottomMargin = dp(4)
+        addView(logo, llp)
+
+        // 2. 歡迎訊息
+        if (tk.memo.isNotEmpty()) {
+            val memo = card()
+            memo.addView(label(tk.memo, 14f, C.INK))
+            addSpaced(memo)
+        }
+
+        // 3. 版本資訊（終端機風格）
         val console = card()
         console.background = shape(C.CONSOLE, C.BORDER, 10)
         val roots = DeviceInfo.detectedRootManagers(ctx)
         val sig = DeviceInfo.signatureStatus(ctx)
+        console.addView(label("版本資訊", 12f, C.DIM, bold = true, mono = true))
         val lines = listOf(
-            "> ASD TOOLBOX  v" + versionName(),
             "MODEL    " + Build.MANUFACTURER + " " + Build.MODEL,
             "ANDROID  " + Build.VERSION.RELEASE + " (API " + Build.VERSION.SDK_INT + ")",
             "PATCH    " + (Build.VERSION.SECURITY_PATCH ?: "unknown"),
             "ROM      " + DeviceInfo.rom(),
             "ROOT MGR " + (if (roots.isEmpty()) "未偵測到" else roots.joinToString(", ")),
-            "DATA     " + tk.source + (if (tk.updated.isNotEmpty()) " · " + tk.updated else ""),
-            "SIGN     $sig"
+            "APP      v" + versionName() + " · 資料 " + tk.source + (if (tk.updated.isNotEmpty()) " " + tk.updated else "")
         )
-        lines.forEachIndexed { i, s ->
-            val tv = label(s, 12f, if (i == 0) C.GREEN else C.GREEN, mono = true)
-            tv.setPadding(0, if (i == 0) 0 else dp(3), 0, 0)
+        lines.forEach { s ->
+            val tv = label(s, 12f, C.GREEN, mono = true)
+            tv.setPadding(0, dp(4), 0, 0)
             console.addView(tv)
         }
         addSpaced(console)
@@ -220,52 +212,55 @@ class MainActivity : Activity() {
             addSpaced(warn)
         }
 
-        // 公告
-        if (tk.memo.isNotEmpty()) {
-            val memo = card()
-            memo.addView(label(tk.memo, 13f, C.INK))
-            addSpaced(memo)
-        }
-
-        // 更新摘要
-        var outdated = 0
-        var notInstalled = 0
-        tk.tools.forEach {
-            when (statusOf(it).first) {
-                St.OUTDATED -> outdated++
-                St.NOT_INSTALLED -> notInstalled++
-                else -> {}
-            }
-        }
+        // 4. 軟體更新
+        val outdated = tk.tools.filter { statusOf(it).first == St.OUTDATED }
         val sum = card()
-        sum.addView(label("$outdated 項軟體可更新", 18f, if (outdated > 0) C.AMBER else C.GREEN, bold = true))
-        sum.addView(label("另有 $notInstalled 項尚未安裝（只計算可偵測的軟體）", 12f, C.MUTED))
-        val sumRow = ctx.row(
-            button("看寶可夢", false) { select(2) },
-            button("看 Root", false) { select(3) },
-            button("重新整理", false) { reload(); Toast.makeText(ctx, "重新載入中", Toast.LENGTH_SHORT).show() }
-        )
-        val rl = LinearLayout.LayoutParams(-1, -2)
-        rl.topMargin = dp(10)
-        sum.addView(sumRow, rl)
+        if (outdated.isNotEmpty()) {
+            sum.background = shape(Color.parseColor("#2B2410"), C.AMBER, 10)
+            sum.addView(label("軟體更新", 12f, C.AMBER, bold = true))
+            val big = label("${outdated.size} 項軟體可更新", 20f, C.AMBER, bold = true)
+            big.setPadding(0, dp(4), 0, dp(6))
+            sum.addView(big)
+            outdated.forEach { t ->
+                val inst = statusOf(t).second ?: ""
+                val line = label("• " + t.name + "  " + inst + " → " + t.version, 13f, C.INK)
+                line.setPadding(0, dp(4), 0, dp(4))
+                line.isClickable = true
+                line.setOnClickListener { goTo(if (t.cat == "root") 3 else 2) }
+                sum.addView(line)
+            }
+        } else {
+            sum.addView(label("軟體更新", 12f, C.GREEN, bold = true))
+            val big = label("目前沒有需要更新的軟體", 16f, C.GREEN, bold = true)
+            big.setPadding(0, dp(4), 0, 0)
+            sum.addView(big)
+            sum.addView(label("只計算已安裝且可偵測版本的軟體", 12f, C.MUTED))
+        }
+        val refresh = label("重新整理資料", 12f, C.MUTED)
+        refresh.setPadding(0, dp(10), 0, 0)
+        refresh.isClickable = true
+        refresh.setOnClickListener {
+            Toast.makeText(ctx, "重新載入中", Toast.LENGTH_SHORT).show()
+            reload()
+        }
+        sum.addView(refresh)
         addSpaced(sum)
 
-        // 四個頁面入口
-        addSpaced(ctx.row(button("教學", true) { select(1) }, button("寶可夢", true) { select(2) }), 8)
-        addSpaced(ctx.row(button("Root", true) { select(3) }, button("設定", true) { select(4) }), 18)
+        // 5. 四個頁面入口
+        addSpaced(ctx.row(button("相關教學", true) { goTo(1) }, button("寶可夢軟體", true) { goTo(2) }), 8)
+        addSpaced(ctx.row(button("Root軟體", true) { goTo(3) }, button("手機設定", true) { goTo(4) }), 18)
 
-        // 聯絡與回報
+        // 6. 聯絡
         val contact = card()
-        contact.addView(label("聯絡與回報", 14f, C.INK, bold = true))
+        contact.addView(label("聯絡我們", 14f, C.INK, bold = true))
         val cr = LinearLayout(ctx)
         cr.orientation = LinearLayout.VERTICAL
         val c = tk.contact
-        if (c.form.isNotEmpty()) cr.addSpaced(button("預約 / 回報表單") { openUrl(c.form) }, 8)
-        if (c.instagram.isNotEmpty()) cr.addSpaced(button("Instagram") { openUrl(c.instagram) }, 8)
+        if (c.threads.isNotEmpty()) cr.addSpaced(button("Threads", true) { openUrl(c.threads) }, 8)
         if (c.email.isNotEmpty()) cr.addSpaced(button("Email") {
             startSafe(Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:" + c.email)))
         }, 8)
-        cr.addSpaced(button("複製診斷資訊（回報用）", true) {
+        cr.addSpaced(button("複製裝置資訊（聯絡時附上）") {
             val cm = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             cm.setPrimaryClip(ClipData.newPlainText("ASD diag", buildDiagnostics(tk)))
             Toast.makeText(ctx, "已複製，貼給我們即可", Toast.LENGTH_SHORT).show()
@@ -274,10 +269,6 @@ class MainActivity : Activity() {
         lp.topMargin = dp(10)
         contact.addView(cr, lp)
         addSpaced(contact)
-
-        val ver = label("ASD 工具箱 v" + versionName(), 11f, C.DIM, mono = true)
-        ver.gravity = Gravity.CENTER
-        addView(ver)
     }
 
     private fun versionName(): String = try {
@@ -289,8 +280,7 @@ class MainActivity : Activity() {
     // ---------- 寶可夢 / Root 清單 ----------
 
     private fun buildTools(tk: Toolkit, cat: String): View = page {
-        val ctx = this@MainActivity
-        val title = if (cat == "game") "寶可夢相關軟體" else "Root 相關軟體"
+        val title = if (cat == "game") "寶可夢軟體" else "Root軟體"
         addSpaced(label(title, 20f, C.INK, bold = true), 12)
         tk.tools.filter { it.cat == cat }.forEach { t -> addSpaced(toolCard(t)) }
         if (tk.tools.none { it.cat == cat }) addView(label("目前沒有項目", 13f, C.MUTED))
@@ -300,6 +290,7 @@ class MainActivity : Activity() {
         val ctx = this
         val (st, inst) = statusOf(t)
         val c = card()
+        if (st == St.OUTDATED) c.background = shape(Color.parseColor("#2B2410"), C.AMBER, 10)
 
         val head = LinearLayout(ctx)
         head.orientation = LinearLayout.HORIZONTAL
@@ -314,7 +305,7 @@ class MainActivity : Activity() {
         if (t.date.isNotEmpty()) ver.append(" · ").append(t.date)
         if (inst != null) ver.append("\n已安裝 ").append(if (inst.isEmpty()) "(未知版本)" else inst)
         if (ver.isNotEmpty()) {
-            val v = label(ver.toString(), 12f, C.GREEN, mono = true)
+            val v = label(ver.toString(), 12f, if (st == St.OUTDATED) C.AMBER else C.GREEN, mono = true)
             v.setPadding(0, dp(6), 0, 0)
             c.addView(v)
         }
@@ -330,11 +321,12 @@ class MainActivity : Activity() {
         }
         if (t.links.isNotEmpty()) {
             val btns = t.links.map { l -> button(l.label, l.primary) { openLink(l) } }
+            val chunks = btns.chunked(2)
             val rows = LinearLayout(ctx)
             rows.orientation = LinearLayout.VERTICAL
-            btns.chunked(2).forEachIndexed { i, chunk ->
+            chunks.forEachIndexed { i, chunk ->
                 val r = if (chunk.size == 2) ctx.row(chunk[0], chunk[1]) else ctx.row(chunk[0])
-                rows.addSpaced(r, if (i == btns.chunked(2).size - 1) 0 else 8)
+                rows.addSpaced(r, if (i == chunks.size - 1) 0 else 8)
             }
             val lp = LinearLayout.LayoutParams(-1, -2)
             lp.topMargin = dp(10)
@@ -394,9 +386,8 @@ class MainActivity : Activity() {
     // ---------- 設定捷徑 ----------
 
     private fun buildSettings(): View = page {
-        val ctx = this@MainActivity
         val brand = DeviceInfo.brandKey()
-        addSpaced(label("手機設定捷徑", 20f, C.INK, bold = true), 4)
+        addSpaced(label("手機設定", 20f, C.INK, bold = true), 4)
         addSpaced(label("點擊直接開啟；若這支手機打不開，會顯示手動路徑。", 12f, C.MUTED), 12)
         Shortcuts.all.forEach { s ->
             val c = card()
@@ -447,8 +438,10 @@ class MainActivity : Activity() {
 
     private fun buildGuidesPage() {
         guidesPage = FrameLayout(this)
+        guidesPage.setBackgroundColor(C.BG)
         web = WebView(this)
         web.setBackgroundColor(C.BG)
+        web.setOnScrollChangeListener { _, _, _, _, _ -> glass.refreshBlur() }
         val s = web.settings
         s.javaScriptEnabled = true
         s.domStorageEnabled = true

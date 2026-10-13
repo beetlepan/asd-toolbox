@@ -1,15 +1,15 @@
 {
   "schema": 1,
   "updated": "2026-10-13",
-  "memo": "歡迎使用 ASD工具箱。軟體版本與教學會持續更新，遇到問題請先查「教學」，找不到再用「回報」一鍵整理資訊給我們。",
+  "memo": "歡迎使用 ASD工具箱。軟體版本與教學會持續更新，遇到問題請先查「教學」，找不到再透過社群聯絡我們。",
   "categories": [
+    {
+      "id": "game",
+      "label": "寶可夢"
+    },
     {
       "id": "root",
       "label": "ROOT"
-    },
-    {
-      "id": "game",
-      "label": "遊戲"
     }
   ],
   "updates": [
@@ -419,8 +419,8 @@
           "d": "重開機後再次開啟該金融 App，確認是否恢復正常。"
         },
         {
-          "t": "仍無效就回報",
-          "d": "到「回報」頁籤，附上 App 名稱與畫面截圖，預約回報處理。"
+          "t": "仍無效就聯絡我們",
+          "d": "透過 Threads 聯絡我們，附上 App 名稱與畫面截圖。"
         }
       ]
     },
@@ -436,7 +436,7 @@
         },
         {
           "t": "需要重新刷入",
-          "d": "透過「回報」頁籤的聯絡方式預約，我們會協助重新刷入。"
+          "d": "透過 Threads 聯絡我們，我們會協助重新刷入。"
         }
       ]
     },
@@ -530,7 +530,7 @@
         },
         {
           "t": "立即聯絡",
-          "d": "到「回報」頁籤聯絡。是否能修復，需實際評估後才能告知。"
+          "d": "透過 Threads 聯絡我們。是否能修復，需實際評估後才能告知。"
         }
       ]
     },
@@ -542,7 +542,7 @@
       "steps": [
         {
           "t": "預約還原服務",
-          "d": "透過「回報」頁籤的聯絡方式預約，並附上機型資訊。"
+          "d": "透過 Threads 聯絡我們，並附上機型資訊。"
         }
       ]
     },
@@ -581,12 +581,11 @@
     },
     {
       "id": "know-report",
-      "text": "知道遇到問題要先看教學，再用「回報」整理資訊"
+      "text": "知道遇到問題要先看教學，找不到再透過 Threads 聯絡"
     }
   ],
   "contact": {
-    "form": "https://docs.google.com/forms/d/e/1FAIpQLSc2nbrkhKmmwC4IkVEDNHpsbhaVqe48ZwHj2wXWpY1X9cL8tQ/viewform?usp=dialog",
-    "instagram": "https://www.instagram.com/asdasdinx55/",
+    "threads": "https://www.threads.com/@asdasdinx55",
     "email": "ateliersourcedeck@gmail.com"
   },
   "linkTypes": {

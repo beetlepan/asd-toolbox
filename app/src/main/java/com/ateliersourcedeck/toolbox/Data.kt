@@ -22,7 +22,7 @@ data class Tool(
     val links: List<Link>
 )
 
-data class Contact(val form: String, val instagram: String, val email: String)
+data class Contact(val threads: String, val email: String)
 
 data class Toolkit(
     val memo: String,
@@ -79,8 +79,7 @@ object Repo {
         }
         val c = root.optJSONObject("contact")
         val contact = Contact(
-            c?.optString("form") ?: "",
-            c?.optString("instagram") ?: "",
+            c?.optString("threads") ?: "",
             c?.optString("email") ?: ""
         )
         return Toolkit(root.optString("memo"), root.optString("updated"), tools, contact, source)
