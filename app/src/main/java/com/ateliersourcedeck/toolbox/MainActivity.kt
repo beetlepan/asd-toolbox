@@ -226,7 +226,7 @@ class MainActivity : Activity() {
                 val line = label("• " + t.name + "  " + inst + " → " + t.version, 13f, C.INK)
                 line.setPadding(0, dp(4), 0, dp(4))
                 line.isClickable = true
-                line.setOnClickListener { goTo(if (t.cat == "root") 3 else 2) }
+                line.setOnClickListener { Haptics.tick(ctx); goTo(if (t.cat == "root") 3 else 2) }
                 sum.addView(line)
             }
         } else {
@@ -240,6 +240,7 @@ class MainActivity : Activity() {
         refresh.setPadding(0, dp(10), 0, 0)
         refresh.isClickable = true
         refresh.setOnClickListener {
+            Haptics.tick(ctx)
             Toast.makeText(ctx, "重新載入中", Toast.LENGTH_SHORT).show()
             reload()
         }

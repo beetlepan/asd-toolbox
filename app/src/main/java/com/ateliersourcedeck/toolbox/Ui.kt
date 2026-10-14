@@ -4,6 +4,10 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.Typeface
 import android.graphics.drawable.GradientDrawable
+import android.os.Build
+import android.os.VibrationEffect
+import android.os.Vibrator
+import android.os.VibratorManager
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
@@ -25,6 +29,31 @@ object C {
     val DIM = Color.parseColor("#55605A")
     val GLASS = Color.parseColor("#D9121618")
     val GLASS_EDGE = Color.parseColor("#33FFFFFF")
+}
+
+/** 點擊時的輕微震動回饋（約 16 毫秒），失敗時靜默略過。 */
+object Haptics {
+    private var vib: Vibrator? = null
+
+    fun tick(ctx: Context) {
+        try {
+            val v = vib ?: if (Build.VERSION.SDK_INT >= 31) {
+                (ctx.applicationContext.getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as VibratorManager).defaultVibrator
+            } else {
+                @Suppress("DEPRECATION")
+                ctx.applicationContext.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+            }.also { vib = it }
+            if (!v.hasVibrator()) return
+            if (Build.VERSION.SDK_INT >= 26) {
+                val amp = if (v.hasAmplitudeControl()) 70 else VibrationEffect.DEFAULT_AMPLITUDE
+                v.vibrate(VibrationEffect.createOneShot(16, amp))
+            } else {
+                @Suppress("DEPRECATION")
+                v.vibrate(16)
+            }
+        } catch (e: Throwable) {
+        }
+    }
 }
 
 fun Context.dp(v: Int): Int = (v * resources.displayMetrics.density + 0.5f).toInt()
@@ -58,7 +87,7 @@ fun Context.button(text: String, primary: Boolean = false, onClick: () -> Unit):
     b.setPadding(dp(14), dp(10), dp(14), dp(10))
     b.background = shape(if (primary) C.GREEN else C.PANEL, if (primary) C.GREEN else C.BORDER, 8)
     b.isClickable = true
-    b.setOnClickListener { onClick() }
+    b.setOnClickListener { Haptics.tick(this); onClick() }
     return b
 }
 

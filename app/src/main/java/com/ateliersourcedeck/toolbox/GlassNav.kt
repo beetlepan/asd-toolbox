@@ -195,8 +195,10 @@ class GlassNav(ctx: Context, names: List<String>) : FrameLayout(ctx) {
             MotionEvent.ACTION_UP -> {
                 if (dragging) {
                     onDragEnd?.invoke(position)
+                    Haptics.tick(context)
                 } else {
                     val idx = (e.x / tabW).toInt().coerceIn(0, count - 1)
+                    Haptics.tick(context)
                     onTap?.invoke(idx)
                 }
                 dragging = false

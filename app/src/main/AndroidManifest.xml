@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <!-- Android 11+ 套件可見性：只列出要偵測版本的 App，不申請 QUERY_ALL_PACKAGES。
          新增偵測對象時，要在這裡加上它的套件名稱。 -->

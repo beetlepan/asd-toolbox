@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updated": "2026-10-13",
+  "updated": "2026-10-14",
   "memo": "歡迎使用 ASD工具箱。軟體版本與教學會持續更新，遇到問題請先查「教學」，找不到再透過社群聯絡我們。",
   "categories": [
     {
@@ -89,7 +89,7 @@
       "cat": "root",
       "name": "LSPosed",
       "author": "LSPosed.cn",
-      "version": "v2.2.0-7854",
+      "version": "v2.2.1-7912",
       "date": "",
       "stars": "",
       "desc": "Xposed 模組執行框架，用來執行各類系統模組（本工作室服務所使用的版本）。",
@@ -181,8 +181,8 @@
       "cat": "game",
       "name": "Pokémon GO（Play 商店原版）",
       "author": "Niantic, Inc.",
-      "version": "0.431.0",
-      "date": "2026-10-02",
+      "version": "0.433.0",
+      "date": "2026-10-09",
       "stars": "",
       "pkg": "com.nianticlabs.pokemongo",
       "desc": "Google Play 商店的原版 Pokémon GO。版本號取自 APKMirror，下載請到 Play 商店。",
@@ -306,7 +306,6 @@
       "date": "",
       "stars": "",
       "pkg": "com.evermorelabs.polygonx",
-      "isNew": true,
       "desc": "寶可夢相關的第三方工具，需 Android 9 以上。",
       "warn": "第三方工具，使用前請自行評估風險，可能違反遊戲服務條款。",
       "links": [
@@ -327,7 +326,6 @@
       "date": "",
       "stars": "",
       "pkg": "com.daydreamer.wecatch",
-      "isNew": true,
       "desc": "軟體提供 IV、團戰等資料。",
       "warn": "第三方工具，使用前請自行評估風險，可能違反遊戲服務條款。",
       "links": [
@@ -348,7 +346,6 @@
       "date": "",
       "stars": "",
       "pkg": "com.antvn.pokelist",
-      "isNew": true,
       "desc": "寶可夢數據查詢工具，網站提供 IV、PvP、團戰等資料。",
       "links": [
         {
@@ -372,8 +369,7 @@
       "version": "",
       "date": "",
       "stars": "",
-      "isNew": true,
-      "desc": "整理好的 GPX 路徑檔案，可匯入定位模擬工具使用。感謝楊君傑提供分享。",
+      "desc": "整理好的 GPX 路徑檔案，可匯入定位模擬工具使用。檔案來源：楊君傑。如有侵權等疑慮，請告知我們，會立即下架。",
       "links": [
         {
           "label": "開啟檔案夾",
@@ -391,7 +387,6 @@
       "version": "1.5.0",
       "date": "",
       "stars": "",
-      "isNew": true,
       "desc": "Magisk / KernelSU 的 Zygisk 實作模組，部分模組與隱藏方案會用到。這是 Root 模組，下載後要在 Root 管理器內「從儲存空間安裝」。",
       "links": [
         {
@@ -405,50 +400,15 @@
   ],
   "guides": [
     {
-      "id": "bank-app-unsafe",
-      "tag": "ROOT",
-      "title": "銀行、薪資轉帳 App 顯示「裝置不安全」",
-      "summary": "多數金融類 App 會偵測裝置是否 Root。交機時已安裝隱藏套件因應，交付後若又出現，通常是 App 更新了偵測機制。",
-      "steps": [
-        {
-          "t": "完整重開機",
-          "d": "先把手機重新啟動一次，不要只是關閉 App 再開。"
-        },
-        {
-          "t": "再開一次 App",
-          "d": "重開機後再次開啟該金融 App，確認是否恢復正常。"
-        },
-        {
-          "t": "仍無效就聯絡我們",
-          "d": "透過 Threads 聯絡我們，附上 App 名稱與畫面截圖。"
-        }
-      ]
-    },
-    {
-      "id": "root-gone-after-ota",
-      "tag": "ROOT",
-      "title": "系統自動更新後，Root 不見了",
-      "summary": "系統 OTA 更新通常會清除 Root，這是正常現象，不是壞掉。",
-      "steps": [
-        {
-          "t": "先關閉自動更新",
-          "d": "到手機「設定」內關閉系統自動更新，避免再次被覆蓋。"
-        },
-        {
-          "t": "需要重新刷入",
-          "d": "透過 Threads 聯絡我們，我們會協助重新刷入。"
-        }
-      ]
-    },
-    {
       "id": "joystick-quickstart",
       "tag": "遊戲",
-      "title": "GPS Joystick（飛人）快速上手",
-      "summary": "第一次使用 Joystick 的設定流程。首次開啟會有設定精靈，依畫面逐項完成即可；之後也能隨時回頭補設定。",
+      "cat": "game",
+      "title": "GPS Joystick (PGTools Fly) 飛人快速上手",
+      "summary": "第一次使用 Joystick 的設定流程。首次開啟會有設定引導，依畫面逐項完成即可（購買工作室代刷服務者，都已協助設定，直接跳步驟六）；之後也能隨時回頭補設定。",
       "steps": [
         {
-          "t": "開啟 Joystick，進入設定精靈",
-          "d": "第一次開啟會出現卡片式的設定精靈，依你的手機品牌顯示對應的操作說明。已完成的項目會自動跳過，不想現在設定的可以先略過，之後再補。"
+          "t": "開啟 Joystick，進入設定引導",
+          "d": "第一次開啟會出現卡片式的設定引導，依你的手機品牌顯示對應的操作說明。已完成的項目會自動跳過，不想現在設定的可以先略過，之後再補。"
         },
         {
           "t": "允許通知與定位權限",
@@ -460,7 +420,7 @@
         },
         {
           "t": "開啟開發人員選項",
-          "d": "精靈會依品牌（三星、Pixel、OnePlus、小米等）帶你找到開啟開發人員選項的位置，照畫面點選即可。"
+          "d": "會依品牌（三星、Pixel、OnePlus、小米等）帶你找到開啟開發人員選項的位置，照畫面點選即可。"
         },
         {
           "t": "選擇模擬位置應用程式",
@@ -484,8 +444,113 @@
       ]
     },
     {
+      "id": "joystick-gpx-import",
+      "tag": "遊戲",
+      "cat": "game",
+      "title": "Joystick 匯入 GPX 路線，怎麼設定？",
+      "summary": "把下載好的 GPX 路線檔匯入 Joystick，之後就能用「路徑移動」依路線前進。",
+      "steps": [
+        {
+          "t": "下載 GPX 檔",
+          "d": "先下載想用的 GPX 檔到手機。"
+        },
+        {
+          "t": "打開匯入/匯出",
+          "d": "打開 Joystick，點左上角 ☰ →「匯入/匯出」。"
+        },
+        {
+          "t": "選擇檔案",
+          "d": "點「下載資料夾」，選剛下載的 GPX 檔，會出現預覽畫面。"
+        },
+        {
+          "t": "添加路線",
+          "d": "點「路徑」，再點右下角的下載按鈕，選「添加所有路由」，匯入就完成了。"
+        },
+        {
+          "t": "確認路線",
+          "d": "想確認的話，點 ☰ →「路徑」就能看到匯入的路線。"
+        },
+        {
+          "t": "開始使用",
+          "d": "回到地圖，點右上角圖示切換成「路徑移動」，選擇剛匯入的路線，按「開始」即可。（選單名稱可能依版本略有不同。）"
+        }
+      ]
+    },
+    {
+      "id": "joystick-route-modes",
+      "tag": "遊戲",
+      "cat": "game",
+      "title": "Joystick 單一位置與路徑移動，怎麼切換？",
+      "summary": "Joystick 有「單一位置」和「路徑移動」兩種模式，右上角圖示可以切換。路徑模式可以設定循環方式。",
+      "steps": [
+        {
+          "t": "切換模式",
+          "d": "點右上角的圖示，在「單一位置」和「路徑移動」之間切換。"
+        },
+        {
+          "t": "單一位置",
+          "d": "在地圖上點選地點，或直接輸入經緯度，按「開始」就會移動到該點。"
+        },
+        {
+          "t": "路徑移動",
+          "d": "在地圖上點路徑設定，產生一條路線，或載入已匯入的路線，按「開始」，就會依路線上的點依序移動。"
+        },
+        {
+          "t": "設定循環",
+          "d": "路徑走完要重複時，可以選擇「回到起點」或「反向」再走一次。"
+        }
+      ]
+    },
+    {
+      "id": "joystick-settings",
+      "tag": "遊戲",
+      "cat": "game",
+      "title": "Joystick 外觀、大小與速度，在哪裡調？",
+      "summary": "搖桿的樣子、大小、透明度和移動速度，都在左上角選單裡調整。",
+      "steps": [
+        {
+          "t": "打開選單",
+          "d": "在 Joystick 主畫面點左上角的 ☰。"
+        },
+        {
+          "t": "調整搖桿外觀",
+          "d": "可以切換搖桿外觀、顯示大小和透明度。"
+        },
+        {
+          "t": "設定移動速度",
+          "d": "三種移動模式的速度可以各自調整。"
+        },
+        {
+          "t": "備份或還原資料",
+          "d": "點「匯入/匯出」，可以備份或還原路徑等資料。"
+        }
+      ]
+    },
+    {
+      "id": "teleport-cooldown",
+      "tag": "遊戲",
+      "cat": "game",
+      "title": "傳送後的冷卻時間怎麼看？",
+      "summary": "長距離移動後必須等待冷卻時間，沒有等完就操作，可能被系統偵測異常。",
+      "steps": [
+        {
+          "t": "先看 Joystick 內的倒數",
+          "d": "在 Joystick 的地圖畫面裡，可以看到傳送後剩下的冷卻時間。"
+        },
+        {
+          "t": "跨國或忘記上次位置",
+          "d": "建議直接等滿 2 小時再操作。"
+        },
+        {
+          "t": "冷卻結束才操作",
+          "d": "請務必等冷卻時間過了再操作，否則可能被系統偵測異常。"
+        }
+      ]
+    },
+    {
       "id": "joystick-default-link",
       "tag": "遊戲",
+      "cat": "game",
       "device": "小米",
       "title": "點 GPS 位置只開 Google Map，改成自動開 Joystick",
       "summary": "關聯應用程式啟動異常時的處理方式，以小米手機為例。",
@@ -496,7 +561,7 @@
         },
         {
           "t": "進入預設應用程式",
-          "d": "開啟「設定」→「應用程式設定」→「預設應用程式」→「開啟連結」。"
+          "d": "開啟「設定」→「應用程式設定」→「預設應用程式」→「開啟連結」（可從ASD工具箱「手機設定」快捷進入）。"
         },
         {
           "t": "找到 Joystick",
@@ -511,8 +576,9 @@
     {
       "id": "samsung-purchase-error",
       "tag": "遊戲",
+      "cat": "game",
       "device": "三星",
-      "title": "Pokémon GO 顯示「無法完成購買」",
+      "title": "三星版 Pokémon GO 顯示「無法完成購買」",
       "summary": "三星機型常見訊息，有兩種處理方式。",
       "steps": [
         {
@@ -521,7 +587,7 @@
         },
         {
           "t": "方式二：安裝 Galaxy Store",
-          "d": "安裝三星官方商城 Galaxy Store APK，安裝好後先開啟商城，再開啟 Pokémon GO 即可。"
+          "d": "安裝三星應用商城 Galaxy Store APK，安裝好後，開啟「設定」→「應用程式」→找到「應用商店」，將「後台啟動 / 自啟動」打開，點選省電策略「無限制」。回到桌面先開啟商城（閃退正常），再開啟三星版 Pokémon GO 即可。"
         }
       ],
       "links": [
@@ -535,6 +601,7 @@
     {
       "id": "dual-space-error-12",
       "tag": "遊戲",
+      "cat": "game",
       "device": "小米",
       "title": "雙開 Pokémon GO 無法存取位置（錯誤代碼 12）",
       "summary": "使用小米內建雙開（分身）時的處理方式。",
@@ -558,8 +625,67 @@
       ]
     },
     {
+      "id": "bootloader-intro",
+      "tag": "觀念",
+      "cat": "root",
+      "title": "什麼是 Bootloader 解鎖？",
+      "summary": "解鎖與 Root 的底層概念，官方文件是最可靠的來源。",
+      "steps": [
+        {
+          "t": "閱讀官方說明",
+          "d": "Android 官方文件說明了 Bootloader 鎖定與解鎖的運作方式。"
+        }
+      ],
+      "links": [
+        {
+          "label": "Android 官方文件",
+          "url": "https://source.android.com/docs/core/architecture/bootloader/locking_unlocking?hl=zh-tw",
+          "primary": true
+        }
+      ]
+    },
+    {
+      "id": "bank-app-unsafe",
+      "tag": "ROOT",
+      "cat": "root",
+      "title": "銀行、薪資轉帳 App 顯示「裝置不安全」",
+      "summary": "多數金融類 App 會偵測裝置是否 Root。交機時已安裝隱藏套件因應，交付後若又出現，通常是 App 更新了偵測機制。",
+      "steps": [
+        {
+          "t": "完整重開機",
+          "d": "先把手機重新啟動一次，不要只是關閉 App 再開。"
+        },
+        {
+          "t": "再開一次 App",
+          "d": "重開機後再次開啟該金融 App，確認是否恢復正常。"
+        },
+        {
+          "t": "仍無效就聯絡我們",
+          "d": "透過 Threads 聯絡我們，附上 App 名稱與畫面截圖。"
+        }
+      ]
+    },
+    {
+      "id": "root-gone-after-ota",
+      "tag": "ROOT",
+      "cat": "root",
+      "title": "系統自動更新後，Root 不見了",
+      "summary": "系統 OTA 更新通常會清除 Root，這是正常現象，不是壞掉。",
+      "steps": [
+        {
+          "t": "先關閉自動更新",
+          "d": "到手機「設定」內關閉系統自動更新，避免再次被覆蓋。"
+        },
+        {
+          "t": "需要重新刷入",
+          "d": "透過 Threads 聯絡我們，我們會協助重新刷入。"
+        }
+      ]
+    },
+    {
       "id": "bricked",
       "tag": "救援",
+      "cat": "root",
       "title": "手機開不了機（磚機）",
       "summary": "請先停手，不要重複自行操作。",
       "steps": [
@@ -580,31 +706,13 @@
     {
       "id": "restore-stock",
       "tag": "ROOT",
+      "cat": "root",
       "title": "想移除 Root、恢復原廠狀態",
       "summary": "可以，實際可行性視機型而定。",
       "steps": [
         {
           "t": "預約還原服務",
           "d": "透過 Threads 聯絡我們，並附上機型資訊。"
-        }
-      ]
-    },
-    {
-      "id": "bootloader-intro",
-      "tag": "觀念",
-      "title": "什麼是 Bootloader 解鎖？",
-      "summary": "解鎖與 Root 的底層概念，官方文件是最可靠的來源。",
-      "steps": [
-        {
-          "t": "閱讀官方說明",
-          "d": "Android 官方文件說明了 Bootloader 鎖定與解鎖的運作方式。"
-        }
-      ],
-      "links": [
-        {
-          "label": "Android 官方文件",
-          "url": "https://source.android.com/docs/core/architecture/bootloader/locking_unlocking?hl=zh-tw",
-          "primary": true
         }
       ]
     }
