@@ -11,18 +11,30 @@ android {
         applicationId 'com.ateliersourcedeck.toolbox'
         minSdk 24
         targetSdk 34
-        versionCode 4
-        versionName '0.2.2-verify'
+        versionCode 10
+        versionName '1.0.0'
+    }
+
+    // 正式簽署金鑰只從環境變數讀取（GitHub Actions 由 Secrets 提供），不會寫進原始碼。
+    // 沒有提供金鑰時（本機測試）退回 debug 金鑰，產出的 APK 不可作為正式版發佈。
+    def releaseKeystore = System.getenv('KEYSTORE_FILE')
+    signingConfigs {
+        if (releaseKeystore) {
+            release {
+                storeFile file(releaseKeystore)
+                storePassword System.getenv('KEYSTORE_PASSWORD')
+                keyAlias System.getenv('KEY_ALIAS')
+                keyPassword System.getenv('KEY_PASSWORD')
+            }
+        }
     }
 
     buildTypes {
         release {
-            // 驗證版：開啟 R8 混淆與資源縮減，用 debug 金鑰簽署以便直接安裝測試。
-            // 正式版再換成自己的 keystore（發佈後不可更換）。
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.debug
+            signingConfig releaseKeystore ? signingConfigs.release : signingConfigs.debug
         }
     }
 
