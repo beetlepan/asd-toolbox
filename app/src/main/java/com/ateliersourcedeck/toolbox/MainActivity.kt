@@ -92,12 +92,38 @@ class MainActivity : Activity() {
             val tk = Repo.load(applicationContext)
             runOnUiThread {
                 toolkit = tk
+                installSig = installSignature(tk)
                 pager.setPages(
                     listOf(buildHome(tk), guidesPage, buildTools(tk, "game"), buildTools(tk, "root"), buildSettings())
                 )
                 glass.refreshBlur()
             }
         }.start()
+    }
+
+    private var installSig: String? = null
+
+    private fun installSignature(tk: Toolkit): String {
+        val sb = StringBuilder()
+        tk.tools.forEach { t ->
+            if (t.pkg.isNotEmpty()) sb.append(t.pkg).append('=').append(DeviceInfo.installedVersion(this, t.pkg) ?: "-").append(';')
+        }
+        sb.append(DeviceInfo.detectedRootManagers(this).joinToString(","))
+        return sb.toString()
+    }
+
+    // 從安裝畫面或其他 App 回來時，若已安裝版本有變動就重建頁面（不重新下載資料、保留目前所在分頁）
+    override fun onResume() {
+        super.onResume()
+        val tk = toolkit ?: return
+        val sig = installSignature(tk)
+        if (installSig != null && installSig != sig) {
+            pager.setPages(
+                listOf(buildHome(tk), guidesPage, buildTools(tk, "game"), buildTools(tk, "root"), buildSettings())
+            )
+            glass.refreshBlur()
+        }
+        installSig = sig
     }
 
     private fun placeholderPages(): List<View> {
