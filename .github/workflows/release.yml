@@ -39,7 +39,8 @@ jobs:
         run: |
           mkdir -p dist
           cp app/build/outputs/apk/release/app-release.apk dist/ASD-Toolbox.apk
-          "$ANDROID_HOME"/build-tools/*/apksigner verify --print-certs dist/ASD-Toolbox.apk
+          APKSIGNER="$(ls -d "$ANDROID_HOME"/build-tools/* | sort -V | tail -1)/apksigner"
+          "$APKSIGNER" verify --print-certs dist/ASD-Toolbox.apk
           (cd dist && sha256sum ASD-Toolbox.apk > ASD-Toolbox.apk.sha256 && cat ASD-Toolbox.apk.sha256)
       - uses: actions/upload-artifact@v4
         with:
