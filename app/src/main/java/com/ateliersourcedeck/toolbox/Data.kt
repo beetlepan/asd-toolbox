@@ -29,7 +29,8 @@ data class Toolkit(
     val updated: String,
     val tools: List<Tool>,
     val contact: Contact,
-    val source: String
+    val source: String,
+    val rootNote: String = ""
 )
 
 object Repo {
@@ -82,7 +83,7 @@ object Repo {
             c?.optString("threads") ?: "",
             c?.optString("email") ?: ""
         )
-        return Toolkit(root.optString("memo"), root.optString("updated"), tools, contact, source)
+        return Toolkit(root.optString("memo"), root.optString("updated"), tools, contact, source, root.optString("rootNote"))
     }
 
     /** 阻塞呼叫，請在背景執行緒使用。順序：線上 → 上次快取 → App 內建備援。 */

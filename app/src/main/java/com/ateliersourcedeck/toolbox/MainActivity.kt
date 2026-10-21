@@ -175,15 +175,15 @@ class MainActivity : Activity() {
         return if (Versions.compare(inst, t.version) >= 0) Pair(St.LATEST, inst) else Pair(St.OUTDATED, inst)
     }
 
-    private fun statusChip(s: St): TextView {
+    private fun statusChip(s: St, root: Boolean = false): TextView {
         val (text, color) = when (s) {
             St.LATEST -> "最新" to C.GREEN
-            St.OUTDATED -> "可更新" to C.AMBER
+            St.OUTDATED -> (if (root) "有新版" else "可更新") to (if (root) C.MUTED else C.AMBER)
             St.NOT_INSTALLED -> "未安裝" to C.MUTED
             St.INSTALLED_ONLY -> "已安裝" to C.GREEN
             St.UNDETECTABLE -> "僅顯示最新版" to C.DIM
         }
-        val filled = s == St.OUTDATED
+        val filled = s == St.OUTDATED && !root
         val c = label(text, 11f, if (filled) C.GREEN_INK else color, bold = true)
         c.setPadding(dp(8), dp(3), dp(8), dp(3))
         c.background = if (filled) shape(color, color, 99) else shape(Color.TRANSPARENT, color, 99)
@@ -239,7 +239,7 @@ class MainActivity : Activity() {
         }
 
         // 4. 軟體更新
-        val outdated = tk.tools.filter { statusOf(it).first == St.OUTDATED }
+        val outdated = tk.tools.filter { it.cat == "game" && statusOf(it).first == St.OUTDATED }
         val sum = card()
         if (outdated.isNotEmpty()) {
             sum.background = shape(Color.parseColor("#2B2410"), C.AMBER, 10)
@@ -252,7 +252,7 @@ class MainActivity : Activity() {
                 val line = label("• " + t.name + "  " + inst + " → " + t.version, 13f, C.INK)
                 line.setPadding(0, dp(4), 0, dp(4))
                 line.isClickable = true
-                line.setOnClickListener { Haptics.tick(ctx); goTo(if (t.cat == "root") 3 else 2) }
+                line.setOnClickListener { Haptics.tick(ctx); goTo(2) }
                 sum.addView(line)
             }
         } else {
@@ -260,7 +260,7 @@ class MainActivity : Activity() {
             val big = label("目前沒有需要更新的軟體", 16f, C.GREEN, bold = true)
             big.setPadding(0, dp(4), 0, 0)
             sum.addView(big)
-            sum.addView(label("只計算已安裝且可偵測版本的軟體", 12f, C.MUTED))
+            sum.addView(label("只計算已安裝且可偵測版本的寶可夢軟體", 12f, C.MUTED))
         }
         val refresh = label("重新整理資料", 12f, C.MUTED)
         refresh.setPadding(0, dp(10), 0, 0)
@@ -309,6 +309,11 @@ class MainActivity : Activity() {
     private fun buildTools(tk: Toolkit, cat: String): View = page {
         val title = if (cat == "game") "寶可夢軟體" else "Root軟體"
         addSpaced(label(title, 20f, C.INK, bold = true), 12)
+        if (cat == "root" && tk.rootNote.isNotEmpty()) {
+            val note = card()
+            note.addView(label(tk.rootNote, 13f, C.INK))
+            addSpaced(note, 12)
+        }
         tk.tools.filter { it.cat == cat }.forEach { t -> addSpaced(toolCard(t)) }
         if (tk.tools.none { it.cat == cat }) addView(label("目前沒有項目", 13f, C.MUTED))
     }
@@ -317,14 +322,14 @@ class MainActivity : Activity() {
         val ctx = this
         val (st, inst) = statusOf(t)
         val c = card()
-        if (st == St.OUTDATED) c.background = shape(Color.parseColor("#2B2410"), C.AMBER, 10)
+        if (st == St.OUTDATED && t.cat != "root") c.background = shape(Color.parseColor("#2B2410"), C.AMBER, 10)
 
         val head = LinearLayout(ctx)
         head.orientation = LinearLayout.HORIZONTAL
         head.gravity = Gravity.CENTER_VERTICAL
         val name = label(t.name + (if (t.isNew) "  【新增】" else ""), 15f, C.INK, bold = true)
         head.addView(name, LinearLayout.LayoutParams(0, -2, 1f))
-        head.addView(statusChip(st))
+        head.addView(statusChip(st, t.cat == "root"))
         c.addView(head)
 
         val ver = StringBuilder()
@@ -332,7 +337,7 @@ class MainActivity : Activity() {
         if (t.date.isNotEmpty()) ver.append(" · ").append(t.date)
         if (inst != null) ver.append("\n已安裝 ").append(if (inst.isEmpty()) "(未知版本)" else inst)
         if (ver.isNotEmpty()) {
-            val v = label(ver.toString(), 12f, if (st == St.OUTDATED) C.AMBER else C.GREEN, mono = true)
+            val v = label(ver.toString(), 12f, if (st == St.OUTDATED && t.cat != "root") C.AMBER else C.GREEN, mono = true)
             v.setPadding(0, dp(6), 0, 0)
             c.addView(v)
         }
